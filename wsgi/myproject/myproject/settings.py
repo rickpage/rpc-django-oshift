@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'commonstatic',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,9 +114,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(WSGI_DIR, 'static')
+# in production, static files served from here
+STATIC_ROOT = os.path.join(WSGI_DIR, 'static_cache')
+# In prod., collect files from here; in dev, access from here
+STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'), )
 
 #
 # LOGGING
