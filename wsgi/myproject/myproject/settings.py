@@ -32,7 +32,7 @@ if os.environ.get('DEBUG') is not None:
     DEBUG = os.environ.get('DEBUG') == 'True'
 else:
     DEBUG = True
-    
+
 from socket import gethostname
 ALLOWED_HOSTS = [
     gethostname(), # For internal OpenShift load balancer security purposes.
@@ -66,10 +66,12 @@ MIDDLEWARE_CLASSES = (
 # GETTING-STARTED: change 'myproject' to your project name:
 ROOT_URLCONF = 'myproject.urls'
 
+LOGIN_REDIRECT_URL = '/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
