@@ -116,7 +116,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_URL = '/static/'
 # in production, static files served from here
-STATIC_ROOT = os.path.join(WSGI_DIR, 'static_cache')
+STATIC_ROOT = os.path.join(WSGI_DIR, 'static')
 # In prod., collect files from here; in dev, access from here
 STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'), )
 
