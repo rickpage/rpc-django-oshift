@@ -1,5 +1,5 @@
 
-            <form action="{% url 'login' %}" role="form" method="post">
+            <form action="{% url 'rest_framework:login' %}" role="form" method="post">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ next }}" />
 

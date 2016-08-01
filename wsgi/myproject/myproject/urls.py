@@ -17,14 +17,14 @@ urlpatterns = [
 ]
 
 # custom log in or out
-from django.contrib.auth import views as rest_auth
-
-template_name = {'template_name': 'users/login.html'}
-
-urlpatterns += [
-    url(r'^access/login/$', rest_auth.login, template_name, name='login'),
-    url(r'^access/logout/$', rest_auth.logout, template_name, name='logout'),
-]
+#from django.contrib.auth import views as rest_auth
+#
+#template_name = {'template_name': 'users/login.html'}
+#
+#urlpatterns += [
+#    url(r'^access/login/$', rest_auth.login, template_name, name='login'),
+#    url(r'^access/logout/$', rest_auth.logout, template_name, name='logout'),
+#]
 
 # specific to browseable API, though we could use this too if we like
 urlpatterns += [
