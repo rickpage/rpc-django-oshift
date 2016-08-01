@@ -51,6 +51,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Dependencies
+    'rest_framework',
+    # tokens
+    'rest_framework.authtoken',
+    # custom users
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -140,4 +146,26 @@ LOGGING = {
             'level':'DEBUG',
         }
     },
+}
+
+REST_FRAMEWORK = {
+   'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+   'PAGE_SIZE': 100,
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',        
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',        
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+    ,
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+
 }
