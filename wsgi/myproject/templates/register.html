@@ -17,7 +17,9 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
-
+{% if user.is_authenticated %}
+<h3>Welcome, {{ user.username }}.</h3>
+{% else %}
 <form class="form-horizontal" id="userform" style="padding: 0 5em;">
       <div class="form-group text-center status-wrapper">
         
@@ -69,4 +71,5 @@
    
     
 </form>
+{% endif %}
 {% endblock %}
