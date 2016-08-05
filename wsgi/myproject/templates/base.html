@@ -1,0 +1,128 @@
+<html>
+    <head>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block header_styles %}{% endblock %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    
+    {% block bootstrap_head %}
+   
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="http://bootswatch.com/flatly/bootstrap.min.css" type="text/css">
+    
+    {% endblock %}
+    
+    {% block header_js %}
+    {% endblock %}
+    
+</head>
+
+<body>
+    {% block nav %}
+    <nav class="navbar navbar-default" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> 
+            </button>
+
+            <a class="navbar-brand" href="#">S&F Gas Works<br>
+            <!-- <small>Exchange</small></a> -->
+
+        </div>
+        
+        <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <!-- dropdowns
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Customer
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/customer/">Add/Edit Customer</a></li>
+              <li><a href="/invoice/">Invoice</a></li>
+              <li><a href="/activity/">Sales</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Driver
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">  
+              <li><a href="/driver/">Add/Edit Driver</a></li>
+              <li><a href="/map/">Show GPS Map</a></li>
+              <li><a href="/assignments/">Delivery Assignments</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Exchange
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">  
+              <li><a href="/inventory/">Exchange Site Overview</a></li>
+              <li><a href="/map/">Show GPS Map</a></li>
+              <li><a href="/assignments/">Delivery Assignments</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tools
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">  
+              <li><a href="/override/customer/">Credit/Debit Customer</a></li>
+              <li><a href="/override/delivery/">Manual Delivery Assignment</a></li>
+              <li><a href="/override/driver/">View Driver Requests</a></li>
+              <li><a href="/override/driver/">System Permissions</a></li>
+              <li><a href="/info/">Update HQ Info</a></li>
+            </ul>
+          </li>
+        </ul>-->
+        <li id="navCustomer"><a href="/contacts/">Exchange Tank Inventory App</a></li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <!-- login/out -->
+            {% if user.is_authenticated %}  
+                <li><a href="{% url 'rest_framework:logout' %}">Log out {{ user.username }}</a></li>
+            {% else %}
+                <li><a href="{% url 'rest_framework:login' %}">Log in</a></li>
+            {% endif %}
+        </ul>
+        </div>
+    </div>
+    </nav>
+    {% endblock %}
+    {% block content %}
+    
+    {% endblock %}
+    {% block foot %}
+    
+    <footer class="container-fluid "><br>
+        <div class="row">
+        <div class=" col-sm-3"></div>
+        <div class=" col-sm-5">
+            <!-- <span class="text-right label label-primary">S & F Gasworks</span> -->
+        </div>
+        <div class=" col-sm-3 "></div>
+        </div>
+    </footer>
+    {% endblock %}
+    {% block bootstrap_js %}
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      
+        <!-- Latest compiled JavaScript -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    {% endblock %}
+    {% block footer_js %}
+
+    {% endblock %}
+
+</body>
+</html>
