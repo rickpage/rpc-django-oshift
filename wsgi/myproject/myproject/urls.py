@@ -12,7 +12,8 @@ router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet)
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name="register.html")),
+    url('^', include('django.contrib.auth.urls'))
+]
     url(r'^admin/', include(admin.site.urls)),
     
     url(r'^api/', include(router.urls, namespace="api")),
