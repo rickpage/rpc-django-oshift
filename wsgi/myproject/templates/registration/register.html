@@ -11,25 +11,38 @@
         padding: 1em
     }
     .field-wrapper {
-        
+
     }
 </style>
 {% endblock %}
 {% block content %}
-<div class="container-fluid">
-{% if user.is_authenticated %}
-<h3>Welcome, {{ user.username }}.</h3>
-{% else %}
-<form class="form-horizontal" id="userform" style="padding: 0 5em;">
+<div class="container-fluid" class="form-vertical">
+
+{% if form.errors %}
+<div class="panel panel-danger panel-body">
+  {% for r in form.errors %}
+    {{ r }}
+  {% endfor %}
+</div>
+{% endif %}
+
+<form class="form-horizontal"
+   id="userform"
+   action="{% url 'create_normal_user' %}"
+   style="padding: 0 5em;">
+   {% csrf_token %}
+
       <div class="form-group text-center status-wrapper">
-        
+
         <span id="status" class="label label-primary">
-           Please Register your account below; or <a href="{% url 'rest_framework:login' %}"
-           >Login</a>.
+           Please Register your account below; or
+           <a href="{% url 'rest_framework:login' %}">
+             Login
+           </a>
+           .
        </span>
-        
+
     </div>
-    <!-- get csrf from cookie {% csrf_token %}-->
     <div class="form-group" >
       <label class="col-sm-2" for="first_name">First Name</label>
       <div class="col-sm-4 field-wrapper">
@@ -60,16 +73,15 @@
       </div>
       <div class="col-sm-6"></div>
     </div>
-   
+
     <div class="form-group" >
-    
+
     <!-- TODO: Also check for role, in case a Driver hacks his way here ;) -->
     <div class="col-sm-4">
         <input class="btn btn-primary" type="submit" value="Submit">
     </div>
     <small class="text-right col-sm-8"><b>* - required</b></small>
-   
-    
+
+
 </form>
-{% endif %}
 {% endblock %}

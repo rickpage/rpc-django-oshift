@@ -77,7 +77,9 @@ LOGIN_REDIRECT_URL = '/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [ os.path.join(BASE_DIR, 'templates')
+         # , os.path.join(BASE_DIR, 'templates/registration/')  # this line makes django look in our custom templates before the admin ones
+          ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
