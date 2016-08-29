@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block header_styles %}
 <style>
-    div.err {
+    div.err, ul.errorlist {
         margin-right: 5em;
         padding: 0.5em;
         border-left: solid #990000 3px;
@@ -16,16 +16,15 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="container-fluid" class="form-vertical">
+<div class="container-fluid" class="form-horizontal">
 
-{% if form.errors %}
-<div class="panel panel-danger panel-body">
-  {% for r in form.errors %}
-    {{ r }}
-  {% endfor %}
-</div>
-{% endif %}
+  <form action="" method="post">
+    {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Save" />
+  </form>
 
+<!--
 <form class="form-horizontal"
    id="userform"
    action="{% url 'create_normal_user' %}"
@@ -48,8 +47,7 @@
       <div class="col-sm-4 field-wrapper">
         <input type="text" name="first_name" id="first_name"/>
       </div>
-    <!--</div>
-    <div class="form-group" >-->
+    </div>
       <label class="col-sm-2" for="last_name">Last Name</label>
       <div class="col-sm-4 field-wrapper">
         <input type="text" name="last_name" id="last_name"/>
@@ -60,7 +58,6 @@
       <div class="col-sm-4 field-wrapper">
         <input type="text" name="username" id="username"/>
       </div>
-    <!-- </div><div class="form-group"> -->
       <label class="col-sm-2" for="password">Password *</label>
        <div class="col-sm-4 field-wrapper">
         <input type="text" name="password" id="password"/>
@@ -84,4 +81,13 @@
 
 
 </form>
+-->
 {% endblock %}
+{% block footer_js %}
+<!-- fix bootstrap styling -->
+<script>
+$(function(){
+  $("input").addClass("form-control");
+});
+</script>
+{% endblock  %}

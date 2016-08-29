@@ -12,7 +12,7 @@ import users.views
 from django.views.generic import TemplateView
 # For default registration functionality
 from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import UserCreationForm
+from users.forms import RegisterForm
 
 router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet)
@@ -24,10 +24,10 @@ url('^accounts/password_change/',auth_views.password_change, )
 urlpatterns = [
     url('^register/', CreateView.as_view(
             template_name='registration/register.html',
-            form_class=UserCreationForm,
+            form_class=RegisterForm,
             success_url='/'
     ), name='create_normal_user'),
-    url('^accounts/', include('django.contrib.auth.urls')),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/login/',  auth_views.login, login_template, name="login"),
 
     url(r'^accounts/', include('django.contrib.auth.urls')),
