@@ -34,8 +34,9 @@ urlpatterns = [
     ), name='create_normal_user'),
 
     # change password, etc
-    url(r'^accounts/', include('django.contrib.auth.urls')),
+
     url(r'^accounts/login/',  auth_views.login, login_template, name="login"),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
 
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
