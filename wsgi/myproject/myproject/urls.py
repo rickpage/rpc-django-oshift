@@ -17,16 +17,23 @@ from users.forms import RegisterForm
 router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet)
 
+# Use this to override registration/login; i.e. DRY for login template
 login_template = {'template_name': 'rest_framework/login.html'}
-#password_change_template = {'template_name': '/password_change.html'}
 
-url('^accounts/password_change/',auth_views.password_change, )
 urlpatterns = [
-    url('^register/', CreateView.as_view(
+    url(r"^$", TemplateView.as_view(template_name="base.html")),
+
+    # Next two URLS are for public user registration
+    # For displaying messages/data in /success, use a CBV constructed
+    # from both SuccessMessageMixin + CreateView
+    url(r"^success/$", TemplateView.as_view(template_name="registration/success.html")),
+    url(r'^register/', CreateView.as_view(
             template_name='registration/register.html',
             form_class=RegisterForm,
-            success_url='/'
+            success_url='/success/'
     ), name='create_normal_user'),
+
+    # change password, etc
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/login/',  auth_views.login, login_template, name="login"),
 
