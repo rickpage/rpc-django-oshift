@@ -41,6 +41,15 @@ ALLOWED_HOSTS = [
     #'www.example.com', # Second DNS alias (set up in the app)
 ]
 
+# Email
+# SMTP
+email_password = os.environ.get('EMAIL_PASSWORD')
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = "admin@rpcodes.biz"
+EMAIL_HOST_PASSWORD = email_password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "admin@rpcodes.biz"
 
 # Application definition
 
@@ -155,11 +164,11 @@ REST_FRAMEWORK = {
    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
    'PAGE_SIZE': 100,
    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',        
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',        
+        'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     )
     ,
