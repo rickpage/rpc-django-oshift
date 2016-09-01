@@ -34,11 +34,10 @@ urlpatterns = [
     ), name='create_normal_user'),
 
     # change password, etc
-
+    # login here overrides the included one below
     url(r'^accounts/login/',  auth_views.login, login_template, name="login"),
     url(r'^accounts/', include('django.contrib.auth.urls')),
 
-    url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^api/', include(router.urls, namespace="api")),
