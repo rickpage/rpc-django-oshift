@@ -1,9 +1,9 @@
 RPCodes Django quickstart for Openshift
 
-Work in progress. 
+Work in progress.
 
-Intended to ease the creation of a new Django project, especially for REST API projects with user accounts. 
-Based off of openshift/django-example but adds significant features. 
+Intended to ease the creation of a new Django project, especially for REST API projects with user accounts.
+Based off of openshift/django-example but adds significant features.
 See requirements.txt for dependencies.
 
 Combines common elements that I often use in Django projects:
@@ -12,9 +12,10 @@ Combines common elements that I often use in Django projects:
 ++Registration
 ++SessionAuth
 ++Rate Limiting (via django rest if easiest)
+++Permissions, Groups (not yet, for now use createsuperuser for admin accounts)
 
 +Django Rest Framework
-++Browsable API and JSON view
+++Browsable API and JSON view in Debug only
 ++Token Auth
 ++Django-filters
 
@@ -28,4 +29,3 @@ Note to self
 
 Working on:
 User registration standard, including password reset
-
