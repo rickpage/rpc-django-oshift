@@ -28,8 +28,12 @@ SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 SECRET_KEY = SECRETS['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('DEBUG') is not None:
-    DEBUG = os.environ.get('DEBUG') == 'True'
+#if os.environ.get('DEBUG') is not None:
+#    DEBUG = os.environ.get('DEBUG') == 'True'
+#else:
+#    DEBUG = True
+if 'OPENSHIFT_REPO_DIR' in os.environ:
+    DEBUG = False
 else:
     DEBUG = True
 
@@ -43,7 +47,7 @@ ALLOWED_HOSTS = [
 
 # Email
 # SMTP
-email_password = os.environ.get('EMAIL_PASSWORD')
+email_password = os.environ.get('EMAIL_PASSWORD','password')
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_HOST_USER = "admin@rpcodes.biz"
 EMAIL_HOST_PASSWORD = email_password
@@ -167,11 +171,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    )
-    ,
+   
+    
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
@@ -180,3 +181,14 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
 
 }
+
+
+if (DEBUG):
+   REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',        
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+else:
+   REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',
+   )
