@@ -19,6 +19,8 @@ class RegisterForm(UserCreationForm):
         self.fields['email'].required = False
         self.fields['first_name'].required = False
         self.fields['last_name'].required = False
+        self.fields['password1'].help_text = "Required."
+        self.fields['password2'].help_text = "Required."
 
     class Meta:
         model = User
