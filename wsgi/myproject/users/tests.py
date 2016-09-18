@@ -10,14 +10,18 @@ from rest_framework.test import APITestCase
 
 
 class UserUnitTests(TestCase):
-    fixtures = ['users']
+    fixtures = ['users_users']
+    #,'users_token'] # token is added by post save, dont need one
 
-    def test_test_user(self):
+    def test_fixture_sanity(self):
         '''
-        Fixture sanity check
+        Fixture sanity check. If this fails, the fixture data is bad.
+        This happens to tests the post_save on User model...
         '''
         u = get_user_model().objects.get()
         self.assertFalse(u is None)
+        t = Token.objects.get(user_id=u.id)
+        self.assertTrue(t is not None and t.user_id == u.id);
 
     def test_forms_fail(self):
         print("Testing form failure")
