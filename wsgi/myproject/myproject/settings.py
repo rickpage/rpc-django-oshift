@@ -110,14 +110,30 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # GETTING-STARTED: change 'db.sqlite3' to your sqlite3 database:
-        'NAME': os.path.join(DATA_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            # GETTING-STARTED: change 'db.sqlite3' to your sqlite3 database:
+            'NAME': os.path.join(DATA_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    postgres_user = os.environ.get('POSTGRES_USERNAME','admin')
+    postgres_password = os.environ.get('POSTGRES_PASSWORD','password')
+    postgres_host = os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST','localhost')
+    postgres_port = os.environ.get('POSTGRES_PASSWORD','5432')
+
+    DATABASES = {
+        'default': {
+            'HOST' : postgres_host
+            , 'PORT' : postgres_port
+            , 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            , 'NAME': 'myproject'
+            , 'USER' : postgres_user
+            , 'PASSWORD' : postgres_password
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
