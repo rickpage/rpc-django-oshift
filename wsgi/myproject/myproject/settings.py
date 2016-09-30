@@ -119,22 +119,25 @@ if DEBUG:
         }
     }
 else:
-    postgres_user = os.environ.get('POSTGRES_USERNAME','admin')
-    postgres_password = os.environ.get('POSTGRES_PASSWORD','password')
+    postgres_user = os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME','admin')
+    postgres_password = os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD','password')
     postgres_host = os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST','localhost')
-    postgres_port = os.environ.get('POSTGRES_PASSWORD','5432')
+    postgres_port = os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT','5432')
+    # By default, openshift console creates database
+    # named after $OPENSHIFT_APP_NAME
+    postgres_db_name = os.environ.get('OPENSHIFT_APP_NAME','data')
 
     DATABASES = {
         'default': {
             'HOST' : postgres_host
             , 'PORT' : postgres_port
-            , 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            , 'NAME': 'myproject'
+            , 'ENGINE': 'django.db.backends.postgresql_psycopg2'
+            , 'NAME': postgres_db_name
             , 'USER' : postgres_user
             , 'PASSWORD' : postgres_password
         }
     }
-
+    
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
