@@ -31,7 +31,7 @@ In the works:
 
 +More...
 
-Note to self
-
-Working on:
-User registration standard, including password reset
+Tests
+To run the tests, you will need:
+requests
+selenium 3.3.3
