@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from .models import UserSerializer, GroupSerializer
 from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.hashers import make_password
+from myproject.permissions import HasGroupPermission
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -10,8 +11,11 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-
-    permission_classes = (IsAdminUser,)
+    permission_classes = (HasGroupPermission,)
+    required_groups = {
+         'GET': [HasGroupPermission.ADMIN, HasGroupPermission.MODERATOR],
+         'POST': [HasGroupPermission.ADMIN],
+    }
 
     def perform_create(self, serializer):
         password = make_password(self.request.data['password'])
@@ -27,5 +31,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-
-    permission_classes = (IsAdminUser,)
+    permission_classes = (HasGroupPermission,)
+    required_groups = {
+         'GET': [HasGroupPermission.ADMIN,HasGroupPermission.MODERATOR],
+         'POST': [HasGroupPermission.ADMIN],
+     }
