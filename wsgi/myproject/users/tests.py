@@ -10,6 +10,10 @@ from rest_framework.test import APITestCase
 
 
 class UserUnitTests(TestCase):
+    """This tests creation of the user from the form, and NOT the rest API.
+    The rest api won't allow deviation from the permissions, but the
+    form here does.
+    Also ensures the resr API tokens are generated (signal test)"""
     fixtures = ['users_users']
     #,'users_token'] # token is added by post save, dont need one
 
@@ -65,19 +69,3 @@ class UserUnitTests(TestCase):
         t = Token.objects.get(user_id=u.id)
         self.assertTrue(t is not None and t.user_id == u.id);
         print("Token created on ", t.created)
-
-# Test creation from Rest api
-# We need to create a user and log them in first
-#
-# class APIUserTests(APITestCase):
-#     def test_create_account(self):
-#         """
-#         Ensure we can create a new account object.
-#         """
-#         url = reverse('api:user-list')
-#         username = 'apps'; password='appspass'
-#         data = {'username': username,'password':password}
-#         response = self.client.post(url, data, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#         self.assertEqual(get_user_model().objects.count(), 1)
-#         self.assertEqual(get_user_model.objects.get().name, username)

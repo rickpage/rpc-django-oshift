@@ -19,7 +19,7 @@ Combines common elements that I often use in Django projects:
 In the works:
 + Auth:
 ++Rate Limiting (via django rest if easiest)
-++Permissions, Groups (not yet, for now use createsuperuser for admin accounts)
+
 ++Messaging system - demonstrates use of Groups
 
 + User Management features
