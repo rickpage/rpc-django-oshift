@@ -11,14 +11,21 @@ Combines common elements that I often use in Django projects:
 + contrib.auth.Users
 ++Registration
 ++SessionAuth
+++Permissions, Groups
++++Admins and mods can change users but regular users cannot
+
+
 
 + Django Rest Framework
 ++ Browsable API view in Debug only
 ++ Token Auth
 
+
+
 In the works:
 + Auth:
 ++Rate Limiting (via django rest if easiest)
+++Permissions: dont let regular users view the entire list of users
 
 ++Messaging system - demonstrates use of Groups
 

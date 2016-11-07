@@ -11,7 +11,8 @@ def is_in_group(user, group_name):
 
 class HasGroupPermission(permissions.BasePermission):
     """
-    Ensure user is in ANY of the listed required groups
+    USUALLY WE WILL JUST USE DjangoModelPermissions from DRF
+    Ensure user is in ALL of the listed required groups
     - unless they are have is_superuser = True.
     Set the required groups on the view as an attribute i.e.
     required_groups = { 'GET' : "Admins" }
@@ -30,7 +31,7 @@ class HasGroupPermission(permissions.BasePermission):
         required_groups = required_groups_mapping.get(request.method, [])
 
         # Return True if the user has all the required groups.
-        return request.user.is_superuser or any([is_in_group(request.user, group_name) for group_name in required_groups])
+        return request.user.is_superuser or all([is_in_group(request.user, group_name) for group_name in required_groups])
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
