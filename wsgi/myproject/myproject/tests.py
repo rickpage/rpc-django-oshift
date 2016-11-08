@@ -96,19 +96,61 @@ class UserAPIAdminGroupTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # change a detail
-        url = reverse('api:user-detail',kwargs={"pk":3})
+        url = reverse('api:user-detail',kwargs={"pk":1})
         data = response.data
-        data["last_name"] = "CHANGED"
+        data["username"] = "tt_CHANGED"
         data["password"] = "whatever"
-        print(data)
         response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK or status.HTTP_201_CREATED or status.HTTP_202_ACCEPTED)
+        print(response.data)
+        self.assertTrue(response.status_code ==
+           status.HTTP_200_OK or status.HTTP_201_CREATED
+            or status.HTTP_202_ACCEPTED or status.HTTP_204_NO_CONTENT)
 
-        # confirm the detail by getting user again
-        pass
 
     def test_admin_delete_user(self):
+        self.assertTrue(self.client.login(username="admin_ttt",password="ttt"))
         # get user
-        # delete him
-        # verify the user is gone
-        pass
+        url = reverse('api:user-detail',kwargs={"pk":1})
+        response = self.client.get(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # change a detail
+        url = reverse('api:user-detail',kwargs={"pk":1})
+        response = self.client.delete(url,format='json')
+        print(response.data)
+        self.assertTrue(response.status_code ==
+           status.HTTP_200_OK or status.HTTP_201_CREATED
+            or status.HTTP_202_ACCEPTED or status.HTTP_204_NO_CONTENT)
+
+    def test_non_admin_cant_change_user(self):
+        self.assertTrue(self.client.login(username="ttt",password="ttt"))
+        # get user
+        url = reverse('api:user-detail',kwargs={"pk":3})
+        response = self.client.get(url, format='json')
+
+        self.assertNotEqual(response.status_code, status.HTTP_200_OK)
+        # change a detail
+        url = reverse('api:user-detail',kwargs={"pk":3})
+        data = response.data
+        data["username"] = "tt_CHANGED"
+        data["password"] = "whatever"
+        response = self.client.put(url, data, format='json')
+        print(response.data)
+        self.assertFalse(response.status_code >=
+           status.HTTP_200_OK and response.status_code < 300)
+
+    def test_non_admin_cant_delete_user(self):
+        self.assertTrue(self.client.login(username="ttt",password="ttt"))
+        # get user
+        url = reverse('api:user-detail',kwargs={"pk":3})
+        response = self.client.get(url, format='json')
+
+        self.assertNotEqual(response.status_code, status.HTTP_200_OK)
+        # change a detail
+        url = reverse('api:user-detail',kwargs={"pk":3})
+        response = self.client.delete(url,format='json')
+        print(response.data)
+        self.assertFalse(response.status_code >=
+           status.HTTP_200_OK and response.status_code < 300)
+        self.assertTrue(response.status_code >=
+              400 and response.status_code < 500)
