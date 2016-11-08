@@ -4,6 +4,9 @@ from django.contrib.auth.models import User,Group,Permission
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.core.urlresolvers import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase, APIClient
 
 import requests
 
@@ -34,10 +37,9 @@ class StaticFilesTestCase(RequestsTestCase):
         r= self.open(self.test_url)
         self.assertTrue(r.status_code == 200)
 
-class AdminGroupPermissionsTests(RequestsTestCase):
+
+class UserAPIAdminGroupTests(APITestCase):
     """
-
-
     Should test that:
 
     Admins can change users
@@ -59,6 +61,7 @@ class AdminGroupPermissionsTests(RequestsTestCase):
     fixtures = ['auth_group_permissions', 'users_users', ]
 
     def setUp(self):
+        self.client = APIClient()
         # We have no control over the ids of the permissions, so
         # we grab them by codename and use them to
         # create group level permissions every time we test.
@@ -75,12 +78,32 @@ class AdminGroupPermissionsTests(RequestsTestCase):
         for c in codenames:
             p = Permission.objects.get(codename=c)
             ag.permissions.add(p)
+        ag.save()
 
+    def test_regular_user_cant_view_user_api(self):
+        """
+        Ensure we can't view account object.
+        """
+        url = reverse('api:user-detail',kwargs={"pk":1})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_admin_change_user(self):
+        self.assertTrue(self.client.login(username="admin_ttt",password="ttt"))
         # get user
+        url = reverse('api:user-detail',kwargs={"pk":1})
+        response = self.client.get(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         # change a detail
-        # save
+        url = reverse('api:user-detail',kwargs={"pk":3})
+        data = response.data
+        data["last_name"] = "CHANGED"
+        data["password"] = "whatever"
+        print(data)
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK or status.HTTP_201_CREATED or status.HTTP_202_ACCEPTED)
+
         # confirm the detail by getting user again
         pass
 
@@ -88,11 +111,4 @@ class AdminGroupPermissionsTests(RequestsTestCase):
         # get user
         # delete him
         # verify the user is gone
-        pass
-
-    def test_regular_user_change_delete_FAIL(self):
-        """Expected failure"""
-        # log in as regular user
-        self.client.login(username="ttt",password="ttt")
-        
         pass

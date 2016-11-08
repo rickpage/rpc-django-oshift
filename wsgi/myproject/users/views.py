@@ -15,7 +15,6 @@ class UserViewSet(viewsets.ModelViewSet):
     # Demonstrate DjangoModelPermissions
     permission_classes = (ImprovedDjangoModelPermissions,)
 
-
     def perform_create(self, serializer):
         password = make_password(self.request.data['password'])
         serializer.save(password=password)
@@ -27,6 +26,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
+    Authenticated users may view, but only superuser may change names / create
+    groups via this endpoint.
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer

@@ -5,18 +5,18 @@ from rest_framework.authtoken.models import Token
 
 #
 # Signals
-# 
+#
 
 # Add Token to user model
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-        
+
 #
 # Serializers
 #
-        
+
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
@@ -31,18 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
                 'write_only': True,
             },
         }
-        
-#    def create(self, validated_data):
-#        warn("Password " + validated_data['password'])
-#        g_data = validated_data.pop('groups')        
-#        user = User.objects.create_user(**validated_data)
-#        user.groups = g_data        
-#        user.save()
-#        return user
-
 
 class GroupSerializer(serializers.ModelSerializer):
-    group_id = serializers.ReadOnlyField(source='id')   
+    group_id = serializers.ReadOnlyField(source='id')
     class Meta:
         model = Group
         fields = ('name', 'group_id')
