@@ -1,6 +1,21 @@
 from rest_framework import permissions
 from django.contrib.auth.models import Group
 
+class ImprovedDjangoModelPermissions(permissions.DjangoModelPermissions):
+     # Map methods into required permission codes.
+    # Override this if you need to also provide 'view' permissions,
+    # or if you want to provide custom permission codes.
+    perms_map = {
+        'GET': ['%(app_label)s.view_%(model_name)s'],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.add_%(model_name)s'],
+        'PUT': ['%(app_label)s.change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.delete_%(model_name)s'],
+    }
+
+
 def is_in_group(user, group_name):
     """
     Takes a user and a group name, and returns
@@ -19,7 +34,6 @@ class HasGroupPermission(permissions.BasePermission):
     """
     # TODO: Manage the names / ids against the database or ensure DB is populated
     ADMIN = "Admin"
-    MODERATOR = "Moderator"
 
     def has_permission(self, request, view):
         # Get a mapping of methods -> required group.

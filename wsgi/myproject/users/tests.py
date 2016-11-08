@@ -22,7 +22,7 @@ class UserUnitTests(TestCase):
         Fixture sanity check. If this fails, the fixture data is bad.
         This happens to tests the post_save on User model...
         '''
-        u = get_user_model().objects.get()
+        u = get_user_model().objects.get(id=1)
         self.assertFalse(u is None)
         t = Token.objects.get(user_id=u.id)
         self.assertTrue(t is not None and t.user_id == u.id);
