@@ -13,6 +13,8 @@ from django.views.generic import TemplateView
 # For default registration functionality
 from django.views.generic.edit import CreateView
 from users.forms import RegisterForm
+import photos.views
+import photos.forms
 
 router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet)
@@ -42,6 +44,12 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^api/', include(router.urls, namespace="api")),
+
+    url(r'^upload-photo/'
+      , TemplateView.as_view(template_name='photos/index.html')
+      , name='upload-photo-form'),
+
+    url(r'^upload-photo-post/', photos.views.basic_photo_upload, name='upload-photo'),
 
     url(r'^api-token-auth/', token_views.obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls',

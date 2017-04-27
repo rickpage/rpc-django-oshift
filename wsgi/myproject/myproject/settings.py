@@ -55,6 +55,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "admin@rpcodes.biz"
 
+# s3 Environment variables
+s3_key_id = os.environ.get('ENV_S3_KEY_ID','rundeployscript')
+s3_key_secret = os.environ.get('ENV_S3_KEY_SECRET','rundeployscript')
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -70,6 +74,9 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     # custom users
     'users',
+    # photos uploaded to s3
+    'storages', # django-storages
+    'photos'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -137,7 +144,7 @@ else:
             , 'PASSWORD' : postgres_password
         }
     }
-    
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -201,7 +208,30 @@ REST_FRAMEWORK = {
 
 }
 
+# Amazon (photo) storage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+
+
+
+# Your Amazon Web Services access key, as a string.
+AWS_ACCESS_KEY_ID=s3_key_id
+
+# Your Amazon Web Services secret access key, as a string.
+AWS_SECRET_ACCESS_KEY=s3_key_secret
+
+# Your Amazon Web Services storage bucket name, as a string.
+AWS_STORAGE_BUCKET_NAME="rpcdata" # arn:aws:s3::: ?
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# Relates to custom storage, in case we need other i.e. staticfiles later
+MEDIAFILES_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+DEFAULT_FILE_STORAGE = 'photos.custom_storages.MediaStorage'
+
+
+# Disable browseables when not in debug
 if (DEBUG):
    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
         'rest_framework.renderers.JSONRenderer',
