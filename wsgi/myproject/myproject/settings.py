@@ -218,7 +218,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID=s3_key_id
 
 # Your Amazon Web Services secret access key, as a string.
-AWS_SECRET_ACCESS_KEY=s3_key_secret
+AWS_SECRET_ACCESS_KEY= s3_key_secret
 
 # Your Amazon Web Services storage bucket name, as a string.
 AWS_STORAGE_BUCKET_NAME="rpcdata" # arn:aws:s3::: ?
