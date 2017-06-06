@@ -1,7 +1,96 @@
 
+<script src="/static/js/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <form action="{% url 'upload-photo' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
-    <p>
-        <input id="id_image" type="file" class="" name="image">
-    </p>
-    <input type="submit" value="Submit" />
+  <p>
+      <input id="id_image" type="file" class="" name="image">
+  </p>
+  <input type="submit" value="Submit" />
+
 </form>
+
+
+{# VUE JS TEMPLATE START #}
+{% verbatim %}
+<div id="app">
+  <p>
+<input @change="fileChanged" id="id_image" type="file" class="" name="image">
+</p>
+  <p>
+    <image :src="image" />
+    <image v-bind:src="url" />
+
+  </p>
+  <button v-on:click="doUpload" style="border: outset 5px gray; width: 100px; height: 100px;">
+    Upload
+  </button>
+</div>
+
+{% endverbatim %}
+
+<script>
+var upload_url = "/api/photos/" //"{% url 'upload-photo' %}";
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    image: null // selected image file
+    , url: '' // after uploaded
+    , load_message: "loaded."
+  },
+  // methods don't use caching
+  methods: {
+    fileChanged(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length){
+        console.log("No file");
+        return;
+      }
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    removeImage: function (e) {
+      this.image = '';
+    },
+    doUpload:function(e){
+      console.log(upload_url);
+      axios.post(upload_url, { image: this.image })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  },
+  created: function () {
+    // `this` points to the vm instance
+    console.log(this.load_message)
+  }
+})
+
+
+function initAxios(){
+  // xsrfCookieName: 'XSRF-TOKEN', // default
+
+  // `xsrfHeaderName` is the name of the http header that carries the xsrf token value
+  // xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  axios.defaults.xsrfCookieName="csrftoken";
+  axios.defaults.xsrfHeaderName="X-CSRFToken";
+
+
+
+}
+initAxios();
+</script>
+</div>

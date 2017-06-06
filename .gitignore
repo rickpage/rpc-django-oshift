@@ -90,3 +90,6 @@ ENV/
 
 # SQLite3
 **/*.sqlite3
+
+# project file
+.project

@@ -19,6 +19,7 @@ import photos.forms
 router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet)
 router.register(r'groups', users.views.GroupViewSet)
+router.register(r'photos', photos.views.BasicPhotoViewSet)
 
 # Use this to override registration/login; i.e. DRY for login template
 login_template = {'template_name': 'rest_framework/login.html'}

@@ -1,5 +1,5 @@
 from django.db import models
-
+from rest_framework import serializers
 # Create your models here.
 """
 By default, when a file is uploaded using a FileField or ImageField,
@@ -8,5 +8,15 @@ it is saved to a file on a path inside the local directory named by MEDIA_ROOT,
   attribute is accessed, it returns the value of MEDIA_URL, prepended to the
    file's path inside MEDIA_ROOT.
 """
+
+
 class BasicPhoto(models.Model):
-    image = models.ImageField(upload_to = 'basic_photo', default = 'basic_photo/no-img.jpg')
+    image = models.ImageField(upload_to='basic_photo',
+                              default='basic_photo/no-img.jpg')
+
+
+class BasicPhotoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BasicPhoto
+        fields = ('id', 'image')

@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from .models import UserSerializer, GroupSerializer
-from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import DjangoModelPermissions
 from myproject.permissions import ImprovedDjangoModelPermissions
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -22,6 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         password = make_password(self.request.data['password'])
         serializer.save(password=password)
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
