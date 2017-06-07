@@ -31,17 +31,17 @@ class BasicPhotoViewSet(viewsets.ModelViewSet):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    @detail_route(methods=['POST'], permission_classes=[])
-    @parser_classes((FormParser, MultiPartParser,))
-    def image(self, request, *args, **kwargs):
-        if 'image' in request.data:
-            user_profile = self.get_object()
-            user_profile.image.delete()
-
-            upload = request.data['image']
-
-            user_profile.image.save(upload.name, upload)
-
-            return Response(status=HTTP_201_CREATED, headers={'Location': user_profile.image.url})
-        else:
-            return Response(status=HTTP_400_BAD_REQUEST)
+    # @detail_route(methods=['POST'], permission_classes=[])
+    # @parser_classes((FormParser, MultiPartParser,))
+    # def image(self, request, *args, **kwargs):
+    #     if 'image' in request.data:
+    #         user_profile = self.get_object()
+    #         user_profile.image.delete()
+    #
+    #         upload = request.data['image']
+    #
+    #         user_profile.image.save(upload.name, upload)
+    #
+    #         return Response(status=HTTP_201_CREATED, headers={'Location': user_profile.image.url})
+    #     else:
+    #         return Response(status=HTTP_400_BAD_REQUEST)
