@@ -47,13 +47,14 @@ ALLOWED_HOSTS = [
 
 # Email
 # SMTP
+
 email_password = os.environ.get('EMAIL_PASSWORD','password')
-EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = "admin@rpcodes.biz"
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.zoho.com')
+EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME',"admin@rpcodes.biz")
 EMAIL_HOST_PASSWORD = email_password
-EMAIL_PORT = 587
+EMAIL_PORT = os.environ.get('EMAIL_SMTP_PORT',587)
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "admin@rpcodes.biz"
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_DEFAULT_FROM_USER',EMAIL_HOST_USER)
 
 # s3 Environment variables
 s3_key_id = os.environ.get('ENV_S3_KEY_ID','rundeployscript')
