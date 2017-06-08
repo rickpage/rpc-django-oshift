@@ -37,7 +37,8 @@ Wrapper like this can be used to associate N photos (albumphoto) with
 a parent object (album)
 '''
 class AlbumPhoto(models.Model):
-    image = models.ForeignKey(BasicPhoto, related_name='+')
+    image = models.ImageField(upload_to='album_photo',
+                              default='album_photo/no-img.jpg')
     creator = models.ForeignKey("auth.User", related_name="+"
       , blank=False, null=False)
     #notes = models.CharField(max_size=1024)
@@ -47,12 +48,12 @@ class AlbumPhoto(models.Model):
 
 class AlbumPhotoSerializer(serializers.ModelSerializer):
     # creator = serializers.StringRelatedField(source="creator.username");
-    image = BasicPhotoSerializer(required=True)
+    #  image = BasicPhotoSerializer(required=True)
 
 
     class Meta:
         model = AlbumPhoto
-        fields = ('id', 'image','creator',) #'notes','creator')
+        fields = ('id', 'image','creator','album') #'notes','creator')
 
     def create(self, validated_data):
         u = validated_data.pop('creator')
