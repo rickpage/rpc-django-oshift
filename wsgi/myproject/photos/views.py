@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseForbidden,HttpResponseBadRequest
-from .models import BasicPhoto, BasicPhotoSerializer
+from .models import * #BasicPhoto, BasicPhotoSerializer
 from .forms import ImageUploadForm
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, parser_classes
@@ -45,3 +45,32 @@ class BasicPhotoViewSet(viewsets.ModelViewSet):
     #         return Response(status=HTTP_201_CREATED, headers={'Location': user_profile.image.url})
     #     else:
     #         return Response(status=HTTP_400_BAD_REQUEST)
+
+
+
+
+class AlbumViewSet(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class =AlbumSerializer
+    # permission_classes = (IsAdminOrIsSelf,)
+
+    def perform_create(self, serializer):
+        creator = self.request.user
+        serializer.save(creator=creator)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+
+class AlbumPhotoViewSet(viewsets.ModelViewSet):
+    queryset = AlbumPhoto.objects.all()
+    serializer_class =AlbumPhotoSerializer
+    # permission_classes = (IsAdminOrIsSelf,)
+
+    def perform_create(self, serializer):
+        creator = self.request.user
+        serializer.save(creator=creator)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
