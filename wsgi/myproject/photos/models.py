@@ -83,5 +83,5 @@ class AlbumSerializer(serializers.ModelSerializer):
         obj = Album.objects.create(creator=u,**validated_data)
         for track_data in photos_data:
             AlbumPhoto.objects.create(album=obj, **track_data)
-        set_trace()
+        #set_trace()
         return obj

@@ -15,6 +15,7 @@ from django.views.generic.edit import CreateView
 from users.forms import RegisterForm
 import photos.views
 import photos.forms
+import inventory.views
 
 router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet)
@@ -22,6 +23,11 @@ router.register(r'groups', users.views.GroupViewSet)
 router.register(r'photos', photos.views.BasicPhotoViewSet)
 router.register(r'albums', photos.views.AlbumViewSet)
 router.register(r'album_photo', photos.views.AlbumPhotoViewSet)
+router.register(r'product', inventory.views.ProductViewSet)
+
+router.register(r'quantity', inventory.views.ProductQuantityViewSet)
+
+router.register(r'inventory', inventory.views.InventoryViewSet)
 
 # Use this to override registration/login; i.e. DRY for login template
 login_template = {'template_name': 'rest_framework/login.html'}

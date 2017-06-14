@@ -77,7 +77,9 @@ INSTALLED_APPS = (
     'users',
     # photos uploaded to s3
     'storages', # django-storages
-    'photos'
+    'photos',
+    # inventory examples
+    'inventory'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -191,7 +193,7 @@ LOGGING = {
 }
 
 REST_FRAMEWORK = {
-   'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+   #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
    'PAGE_SIZE': 100,
    'DEFAULT_AUTHENTICATION_CLASSES': (
